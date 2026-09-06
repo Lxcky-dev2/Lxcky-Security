@@ -1,0 +1,20 @@
+{
+  "name": "lxcky-security-bot",
+  "version": "1.0.0",
+  "description": "A Lxcky Production.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.18.0",
+    "dotenv": "^16.3.1",
+    "mongoose": "^8.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "author": "lxcky",
+  "license": "LTI"
+}
