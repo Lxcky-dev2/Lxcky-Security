@@ -1,0 +1,5 @@
+"use strict";
+const {SlashCommandBuilder,PermissionFlagsBits}=require('discord.js');
+const {hasPermission}=require('../../utils/permissionChecker.js');
+const verification=require('../../utils/verification.js');
+module.exports={data:new SlashCommandBuilder().setName('verify').setDescription('Verification tools').addSubcommand(s=>s.setName('setup').setDescription('Configure verification')).addSubcommand(s=>s.setName('panel').setDescription('Open verification panel')).addSubcommand(s=>s.setName('user').setDescription('Manually verify a user').addUserOption(o=>o.setName('target').setDescription('User to verify').setRequired(true))).setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),async execute(i){const sub=i.options.getSubcommand();if(sub==='user'){if(!(await hasPermission(i.member,'moderateMembers')))return i.reply({content:'Moderate Members permission is required.',flags:64});}else{if(!(await hasPermission(i.member,'manageGuild')))return i.reply({content:'Manage Server permission is required for verification setup.',flags:64});}return verification.handle(i);}};

@@ -1,0 +1,5 @@
+"use strict";
+const {SlashCommandBuilder,PermissionFlagsBits,EmbedBuilder,ActionRowBuilder,ButtonBuilder,ButtonStyle,MessageFlags}=require('discord.js');
+const {isOwner}=require('../../utils/ownerConfig.js');
+function inviteUrl(guildId){const cid=process.env.CLIENT_ID;return `https://discord.com/oauth2/authorize?client_id=${encodeURIComponent(cid)}&scope=bot%20applications.commands&permissions=8&guild_id=${encodeURIComponent(guildId)}`;}
+module.exports={data:new SlashCommandBuilder().setName('servers').setDescription('List servers the bot is in'),async execute(i){if(!isOwner(i.user.id))return i.reply({content:'Owner only.',flags:64});const gs=[...i.client.guilds.cache.values()];const lines=gs.map((g,n)=>`${n+1}. **${g.name}**\nID: \`${g.id}\`\nMembers: ${g.memberCount||0}\nOwner: <@${g.ownerId}>\nInvite: [Add bot](${inviteUrl(g.id)})`).join('\n\n');const chunks=[];for(let x=0;x<lines.length;x+=3500)chunks.push(lines.slice(x,x+3500));return i.reply({embeds:chunks.slice(0,10).map((d,n)=>new EmbedBuilder().setTitle(`Servers ${n+1}/${Math.min(chunks.length,10)}`).setDescription(d).setColor(0x5865F2)),flags:MessageFlags.Ephemeral});}};
